@@ -1,35 +1,42 @@
-class ARROW{
-    constructor(x,y){
-        PLAYER.x = x; //pocicion de la flecha H
-        PLAYER.y = y; //posicion de la flecha V
+ ARROW = {
+        x: PLAYER.x, //pocicion de la flecha H
+        y: PLAYER.y, //posicion de la flecha V
+        velocidad: 2,
+        nombre: 'arrow',
+        visible: false,
 
-        PLAYER.flecha0 = [
+        flecha0 : [
             {x:0,y: 0},
             {x:16*3,y: 0}
-        ];
-    }
+        ],
 
-    pintarDerecha(contexto){
-        contexto.clearRect(PLAYER.x,PLAYER.y,16*3,16*3);
-        contexto.drawImage(arrow,PLAYER.flecha0[indiceAnimacion].x,PLAYER.flecha0[indiceAnimacion].y, 16*3, 16*3,PLAYER.x,PLAYER.y,16*3,16*3);
-        PLAYER.animacion_1();
-    }
+        actualizacionMause: function(){
+            this.x += (mause.x - this-x)/this.velocidad;
+            this.y += (mause.y - this-y)/this.velocidad;
+        },
 
-    derecha(contexto){
-        PLAYER.x+=1;
-    }
+        dibujar: function(contexto){
+            if(this.visible){
+                contexto.clearRect(PLAYER.x,PLAYER.y,16*3,16*3);
+            contexto.drawImage(arrow,PLAYER.flecha0[indiceAnimacion].x,PLAYER.flecha0[indiceAnimacion].y, 16*3, 16*3,PLAYER.x,PLAYER.y,16*3,16*3);
+            }
+        },
 
-    animacion_1(){
-        var esteCuadro = new Date().getTime(),
-        delta = (esteCuadro - ultimoCuadro)/1000;
-        ultimoCuadro = esteCuadro;
-        tiempoAcumulado += delta;
+        actualizar: function(contexto){
+            actualizacionMause();
+        },
 
-        if(indiceAnimacion < 2 && tiempoAcumulado > 0.3 ){
-            tiempoAcumulado = 0;
-            indiceAnimacion ++;
+        animacion_1:function(){
+            var esteCuadro = new Date().getTime(),
+            delta = (esteCuadro - ultimoCuadro)/1000;
+            ultimoCuadro = esteCuadro;
+            tiempoAcumulado += delta;
+
+            if(indiceAnimacion < 2 && tiempoAcumulado > 0.3 ){
+                tiempoAcumulado = 0;
+                indiceAnimacion ++;
+            }
+
+            indiceAnimacion = indiceAnimacion % 2;
         }
-
-        indiceAnimacion = indiceAnimacion % 2;
-    }
-}
+};

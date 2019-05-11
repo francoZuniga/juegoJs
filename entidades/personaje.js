@@ -27,37 +27,20 @@ var PLAYER = {
     objetivoX:0,
     objetivoY:0,
     tiempoAcumulado: 0,
-    movimiento : false,
+    movimiento : 'F',
 
     actualizaConTeclas: function(){
         if(teclado.teclasPrecionadas['65']){
             this.x--;
-            if(this.indiceAnimacion < 2 && this.tiempoAcumulado > 0.7 ){
-                this.tiempoAcumulado = 0;
-                this.indiceAnimacion ++;
-            }
         }
         if(teclado.teclasPrecionadas['68']){
             this.x++;
-            if(this.indiceAnimacion < 2 && this.tiempoAcumulado > 0.7 ){
-                this.tiempoAcumulado = 0;
-                this.indiceAnimacion ++;
-            }
         }
         if(teclado.teclasPrecionadas['83']){
             this.y++;
-            this.movimientoArriva = true;
-            if(this.indiceAnimacion < 2 && this.tiempoAcumulado > 0.7 ){
-                this.tiempoAcumulado = 0;
-                this.indiceAnimacion ++;
-            }
         }
         if(teclado.teclasPrecionadas['87']){
             this.y--;
-            if(this.indiceAnimacion < 2 && this.tiempoAcumulado > 0.7 ){
-                this.tiempoAcumulado = 0;
-                this.indiceAnimacion ++;
-            }
         }
     },
     
@@ -66,37 +49,99 @@ var PLAYER = {
         this.actualizaConTeclas();
     },
 
-    dibujar: function(contexto){
+    mapeoDeMovimiento : function(){
         if(teclado.teclasPrecionadas['65']){
-            this.movimiento = true;
-            contexto.drawImage(sprite,PLAYER.poceIzquierda[0].x,PLAYER.poceIzquierda[0].y, 96, 96,this.x,this.y,96,96);
-        }else{
-            this.movimiento = false;
+            this.movimiento = 'A';
         }
 
         if(teclado.teclasPrecionadas['83']){
-            this.movimiento = true;
-            contexto.drawImage(sprite,PLAYER.poceFrente[0].x,PLAYER.poceFrente[0].y, 96, 96,this.x,this.y,96,96);
-        }else{
-            this.movimiento = false;
+            this.movimiento = 'S';
         }
 
         if(teclado.teclasPrecionadas['87']){
-            this.movimiento = false;
-            contexto.drawImage(sprite,PLAYER.poceArriva[0].x,PLAYER.poceArriva[0].y, 96, 96,this.x,this.y,96,96);
-        }else{
-            this.movimiento = false;
+            this.movimiento = 'W';
         }
 
         if(teclado.teclasPrecionadas['68']){
-            this.movimiento = true;
-            contexto.drawImage(sprite,PLAYER.poceDerecha[0].x,PLAYER.poceDerecha[0].y, 96, 96,this.x,this.y,96,96);
-        }else{
-            this.movimiento = false;
+            this.movimiento = 'D';
         }
 
-        if(this.movimiento){
-            contexto.drawImage(sprite,PLAYER.poceFrente[0].x,PLAYER.poceFrente[0].y, 96, 96,this.x,this.y,96,96);
+        if(teclado.teclasPrecionadas['68'] && teclado.teclasPrecionadas['87']){
+            this.movimiento = 'D';
         }
+
+        if(teclado.teclasPrecionadas['68'] && teclado.teclasPrecionadas['83']){
+            this.movimiento = 'D';
+        }
+
+        if(teclado.teclasPrecionadas['65'] && teclado.teclasPrecionadas['87']){
+            this.movimiento = 'A';
+        }
+
+        if(teclado.teclasPrecionadas['65'] && teclado.teclasPrecionadas['83']){
+            this.movimiento = 'A';
+        }
+
+        if(teclado.teclasPrecionadas['87'] && teclado.teclasPrecionadas['83']){
+            this.movimiento = 'F';
+        }
+
+        if(teclado.teclasPrecionadas['68'] && teclado.teclasPrecionadas['65']){
+            this.movimiento = 'F';
+        }
+
+        if(teclado.teclasPrecionadas['69']){
+            this.movimiento = 'E';
+        }
+    },
+    animacion_1: function(){
+        var esteCuadro = new Date().getTime(),
+        delta = (esteCuadro - ultimoCuadro)/1000;
+        ultimoCuadro = esteCuadro;
+        tiempoAcumulado += delta;
+
+        if(indiceAnimacion < 2 && tiempoAcumulado > 0.3 ){
+            tiempoAcumulado = 0;
+            indiceAnimacion ++;
+        }
+
+        indiceAnimacion = indiceAnimacion % 2;
+    },
+
+    dibujar: function(contexto){
+        this.mapeoDeMovimiento();
+
+        switch(this.movimiento){
+            case 'S':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceFrente[0].x,PLAYER.poceFrente[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            case 'W':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceArriva[0].x,PLAYER.poceArriva[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            case 'A':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceIzquierda[0].x,PLAYER.poceIzquierda[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            case 'D':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceDerecha[0].x,PLAYER.poceDerecha[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            case 'W':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceDerecha[0].x,PLAYER.poceDerecha[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            case 'E':
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceDerecha[0].x,PLAYER.poceDerecha[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+            default:
+                this.movimiento = false;
+                contexto.drawImage(sprite,PLAYER.poceFrente[0].x,PLAYER.poceFrente[0].y, 96, 96,this.x,this.y,96,96);
+            break;
+        }
+
+        this.animacion_1;
     }
 };

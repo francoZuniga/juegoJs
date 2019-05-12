@@ -11,8 +11,8 @@
         ],
 
         actualizacionMause: function(){
-            this.x += (mause.x - this-x)/this.velocidad;
-            this.y += (mause.y - this-y)/this.velocidad;
+            this.x += (mause.x - this.x)/this.velocidad;
+            this.y += (mause.y - this.y)/this.velocidad;
         },
 
         dibujar: function(contexto){

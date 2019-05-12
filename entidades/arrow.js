@@ -18,7 +18,7 @@
         dibujar: function(contexto){
             if(this.visible){
                 contexto.clearRect(PLAYER.x,PLAYER.y,16*3,16*3);
-            contexto.drawImage(arrow,PLAYER.flecha0[indiceAnimacion].x,PLAYER.flecha0[indiceAnimacion].y, 16*3, 16*3,PLAYER.x,PLAYER.y,16*3,16*3);
+                contexto.drawImage(arrow,PLAYER.flecha0[indiceAnimacion].x,PLAYER.flecha0[indiceAnimacion].y, 16*3, 16*3,PLAYER.x,PLAYER.y,16*3,16*3);
             }
         },
 

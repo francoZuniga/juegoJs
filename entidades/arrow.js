@@ -23,7 +23,7 @@
         },
 
         actualizar: function(contexto){
-            actualizacionMause();
+            this.actualizacionMause();
         },
 
         animacion_1:function(){

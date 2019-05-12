@@ -28,6 +28,7 @@ var PLAYER = {
     objetivoY:0,
     tiempoAcumulado: 0,
     movimiento : 'F',
+    tiempoDeDisparo : 0,
 
     actualizaConTeclas: function(){
         if(teclado.teclasPrecionadas['65']){
@@ -93,6 +94,10 @@ var PLAYER = {
         if(teclado.teclasPrecionadas['69']){
             this.movimiento = 'E';
         }
+
+        if(teclado.teclasPrecionadas['82']){
+            this.movimiento = 'R';
+        }
     },
     animacion_1: function(){
         var esteCuadro = new Date().getTime(),
@@ -136,6 +141,9 @@ var PLAYER = {
                 this.movimiento = false;
                 contexto.drawImage(sprite,PLAYER.poceDerecha[0].x,PLAYER.poceDerecha[0].y, 96, 96,this.x,this.y,96,96);
             break;
+            case 'R':
+                this.disparar();
+            break;
             default:
                 this.movimiento = false;
                 contexto.drawImage(sprite,PLAYER.poceFrente[0].x,PLAYER.poceFrente[0].y, 96, 96,this.x,this.y,96,96);
@@ -143,5 +151,23 @@ var PLAYER = {
         }
 
         this.animacion_1;
+    },
+
+    disparar: function(){
+        if(this.tiempoDeDisparo > 0.5){
+            this.tiempoDeDisparo = 0;
+            var i = 0;
+            var control = true;
+            while( i < framework.objetosDeJuego[i] && control){
+                if(framework.objetosDeJuego[i].nombre = 'arrow' && !framework.objetosDeJuego[i].visible){
+                    framework.objetosDeJuego[i].x = this.x;
+                    framework.objetosDeJuego[i].y = this.y;
+                    framework.objetosDeJuego[i].visible = true;
+                    console.log("disparo");
+                    control = false;
+                }
+                i++;
+            }
+        }
     }
 };

@@ -1,9 +1,9 @@
- ARROW = {
-        x: PLAYER.x, //pocicion de la flecha H
-        y: PLAYER.y, //posicion de la flecha V
+ var ARROW = {
+        x: 0, //pocicion de la flecha H
+        y: 0, //posicion de la flecha V
         velocidad: 2,
         nombre: 'arrow',
-        visible: false,
+        visible: true,
 
         flecha0 : [
             {x:0,y: 0},

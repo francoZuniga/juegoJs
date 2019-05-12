@@ -22,7 +22,7 @@
             }
         },
 
-        actualizar: function(contexto){
+        actualizar: function(){
             this.actualizacionMause();
         },
 
